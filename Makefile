@@ -16,8 +16,8 @@ $(OBJ_DIR)/utils.o: src/utils.c
 	gcc -c $^ -o $@
 
 clean:
-	rm $(BUILD_DIR)/*
-	rm $(OBJ_DIR)/*
+	rm $(BIN)/*
+	rm $(OBJS)/*
 
 test: $(BIN)
 	# sacamos el valgrind
