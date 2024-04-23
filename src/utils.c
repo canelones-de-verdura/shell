@@ -20,7 +20,7 @@ char *get_promt() {
         promt[0] = '~';
         // Padre nuestro, que estás en el cielo...
         char* relative_path = current_dir + sizeof(home_dir) + 1;
-        strcpy(promt, relative_path);
+        strcat(promt, relative_path);
     }
     
     strcat(promt, "> ");
