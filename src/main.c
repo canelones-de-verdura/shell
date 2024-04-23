@@ -1,3 +1,4 @@
+#include "exec.h"
 #include "utils.h"
 #include "values.h"
 #include <readline/readline.h>
@@ -34,9 +35,7 @@ void shell_loop() {
     while (running) {
         promt = get_promt();
         line = readline(promt);
-        /*running = shell_exec(split_line(line));*/
-        /* PLACEHOLDER */
-        running = false;
+        running = shell_exec(split_line(line));
     }
 
     free(line);

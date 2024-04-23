@@ -5,4 +5,7 @@
 /* Stuff */
 #include <stdbool.h>
 
-bool shell_exec(char **args) {}
+bool shell_exec(char **args) {
+    /* PLACEHOLDER */
+    return true;
+}
