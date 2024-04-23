@@ -6,16 +6,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <pwd.h>
 
 const char* home_dir;
 char current_dir[STR_SIZE];
 
 bool shell_setup() {
     /* Agarramos el directorio del usuario */
-    if((home_dir = getenv("HOME")) == NULL)
-        if((home_dir = getpwuid(getuid())->pw_dir) == NULL)
-            return false;
+    home_dir = get_home();
+    if (!home_dir)
+        return false; // O nos vamos si no quiere funcar
 
     /* Nos cambiamos para ahí */
     strcpy(current_dir, home_dir);
@@ -30,12 +29,14 @@ bool shell_setup() {
 void shell_loop() {
     char *line;
     char *promt;
+    bool running = true;
 
-    while (true) {
+    while (running) {
         promt = get_promt();
         line = readline(promt);
-        //status = shell_exec(split_line(line));
-        // if (status == ...
+        /*running = shell_exec(split_line(line));*/
+        /* PLACEHOLDER */
+        running = false;
     }
 
     free(line);

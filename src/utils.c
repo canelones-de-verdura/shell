@@ -1,11 +1,23 @@
 #include "values.h"
+#include <pwd.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <unistd.h>
 
 // Separamos líneas según los espacios en blanco
 // TODO: Permitir espacios en blanco al usar "" o \ .
 #define TOKEN_DELIMITER " \t\r\n\a"
+
+char *get_home() {
+    char *home;
+    if (!(home = getenv("HOME"))) {
+        home = getpwuid(getuid())->pw_dir;
+    }
+
+    return home;
+}
 
 /*
  * Recé un rosario antes de ponerme a manipular strings. Espero que sea suficiente
