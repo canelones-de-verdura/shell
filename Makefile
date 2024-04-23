@@ -1,3 +1,6 @@
+# compilador
+CC = gcc
+
 # archivitos .o
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, main.o utils.o)
@@ -7,7 +10,7 @@ BUILD_DIR = build
 BIN = $(BUILD_DIR)/shell
 
 $(BIN): $(OBJS)
-	gcc $^ -o $@ -lreadline
+	$(CC) $^ -o $@ -lreadline
 
 $(OBJ_DIR)/main.o: src/main.c
 	gcc -c $^ -o $@	
