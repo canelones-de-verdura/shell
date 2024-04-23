@@ -1,9 +1,9 @@
 #include "values.h"
 #include <pwd.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <unistd.h>
 
 // Separamos líneas según los espacios en blanco
@@ -20,7 +20,8 @@ char *get_home() {
 }
 
 /*
- * Recé un rosario antes de ponerme a manipular strings. Espero que sea suficiente
+ * Recé un rosario antes de ponerme a manipular strings. Espero que sea
+ * suficiente
  */
 char *get_promt() {
     char *home_in_current_dir = strstr(current_dir, home_dir);
@@ -32,10 +33,10 @@ char *get_promt() {
         promt[0] = '~';
         promt[1] = '\0';
         // Padre nuestro, que estás en el cielo...
-        char* relative_path = current_dir + sizeof(home_dir) + 1;
+        char *relative_path = current_dir + sizeof(home_dir) + 1;
         strcat(promt, relative_path);
     }
-    
+
     strcat(promt, "> ");
 
     return promt;
@@ -50,12 +51,12 @@ char **split_line(char *line) {
 
     // Reventamos todo si malloc se caga
     if (t_array == NULL) {
-        fprintf(stderr, "msh_splitline: malloc se cagó\n");
+        fprintf(stderr, "split_line(): malloc se cagó\n");
         abort();
     }
-    
+
     token = strtok(line, TOKEN_DELIMITER);
-    while(token != NULL) {
+    while (token != NULL) {
         t_array[t_tail] = token;
         ++t_tail;
 
@@ -64,7 +65,7 @@ char **split_line(char *line) {
             t_array = realloc(t_array, t_size);
             // Reventamos todo si realloc se caga
             if (t_array == NULL) {
-                fprintf(stderr, "msh_splitline: realloc se cagó\n");
+                fprintf(stderr, "split_line(): realloc se cagó\n");
                 abort();
             }
         }

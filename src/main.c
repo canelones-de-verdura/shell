@@ -1,5 +1,5 @@
-#include "values.h"
 #include "utils.h"
+#include "values.h"
 #include <readline/readline.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -7,7 +7,7 @@
 #include <string.h>
 #include <unistd.h>
 
-const char* home_dir;
+const char *home_dir;
 char current_dir[STR_SIZE];
 
 bool shell_setup() {
@@ -19,7 +19,7 @@ bool shell_setup() {
     /* Nos cambiamos para ahí */
     strcpy(current_dir, home_dir);
     if (chdir(current_dir) != 0) {
-        perror("shell_setup()");
+        perror("shell_setup(): ");
         return false;
     }
 
@@ -46,7 +46,7 @@ void shell_loop() {
 int main(int argc, char **argv) {
     /* setup */
     if (!shell_setup()) {
-        fprintf(stderr, "Error - Failure to initialize. Stopping...");
+        fprintf(stderr, "Error - Failure to initialize. Stopping...\n");
         exit(EXIT_FAILURE);
     }
 

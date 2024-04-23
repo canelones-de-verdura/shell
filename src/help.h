@@ -3,6 +3,6 @@
 
 #include <stdbool.h>
 
-bool shell_help(char **);
+bool shell_builtin_help(char **);
 
 #endif
