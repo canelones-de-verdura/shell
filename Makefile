@@ -3,7 +3,7 @@ CC = gcc
 
 # archivitos .o
 OBJ_DIR = obj
-OBJS = $(addprefix $(OBJ_DIR)/, main.o utils.o exec.o)
+OBJS = $(addprefix $(OBJ_DIR)/, main.o utils.o exec.o cd.o exit.o help.o)
 
 # ejecutable principal
 BUILD_DIR = build
@@ -19,6 +19,16 @@ $(OBJ_DIR)/utils.o: src/utils.c
 	gcc -c $^ -o $@
 
 $(OBJ_DIR)/exec.o: src/exec.c
+	gcc -c $^ -o $@
+
+
+$(OBJ_DIR)/cd.o: src/cd.c
+	gcc -c $^ -o $@
+
+$(OBJ_DIR)/exit.o: src/exit.c
+	gcc -c $^ -o $@
+
+$(OBJ_DIR)/help.o: src/help.c
 	gcc -c $^ -o $@
 
 clean:

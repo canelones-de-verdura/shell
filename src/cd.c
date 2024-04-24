@@ -1,4 +1,3 @@
-#include "values.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -6,15 +5,24 @@
 #include <unistd.h>
 
 bool shell_builtin_cd(char **args) {
-    if (args[1] == NULL)
-        if (chdir(home_dir) != 0)
-            perror("shell_cd(): ");
+    /* No recibió argumentos */
+    if (args[1] == NULL) {
+        if (chdir(getenv("HOME")) != 0)
+            /* Falló el cambiazo */
+            goto failure;
 
-    if (chdir(args[1]) != 0) {
-        perror("shell_cd(): ");
-    } else {
-        strcpy(current_dir, args[1]);
+        if (setenv("PWD", getenv("HOME"), 1) == -1)
+            goto failure;
+
+        return true;
     }
 
-    return true;
+    /* Recibió argumentos */
+    if ((chdir(args[1]) == 0) && (setenv("PWD", args[1], 1) == 0))
+        return true;
+
+    /* Buena idea o asquerosidad? */
+failure:
+    perror("shell_cd()");
+    return false;
 }
