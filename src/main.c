@@ -1,45 +1,48 @@
 #include "exec.h"
 #include "utils.h"
-#include "values.h"
+#include <pwd.h>
 #include <readline/readline.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-
-const char *home_dir;
-char current_dir[STR_SIZE];
 
 bool shell_setup() {
     /* Agarramos el directorio del usuario */
-    home_dir = get_home();
-    if (!home_dir)
-        return false; // O nos vamos si no quiere funcar
+    char *HOME = getpwuid(getuid())->pw_dir;
+    if (HOME == NULL)
+        goto failure; // Esperemos que lo haya agarrado
 
-    /* Nos cambiamos para ahí */
-    strcpy(current_dir, home_dir);
-    if (chdir(current_dir) != 0) {
-        perror("shell_setup(): ");
-        return false;
-    }
+    /* Cambiamos las variables de entorno para refeljar dónde estamos */
+    if (setenv("HOME", HOME, 1) == 0 && setenv("PWD", HOME, 1) == 0)
+        return true;
 
-    return true;
+    /* Buena idea? */
+failure:
+    perror("shell_setup()");
+    return false;
 }
 
 void shell_loop() {
     char *line;
+    char **args;
     char *promt;
     bool running = true;
 
     while (running) {
+        /* MUY importante que cada cosito sea su propia variable y no quede
+         * func1(func2(fun3())) => Después queda memoria boyando por todos
+         * lados.
+         */
         promt = get_promt();
         line = readline(promt);
-        running = shell_exec(split_line(line));
-    }
+        args = split_line(line);
+        running = shell_exec(args);
 
-    free(line);
-    free(promt);
+        free(line);
+        free(args);
+        free(promt);
+    }
 }
 
 int main(int argc, char **argv) {
@@ -49,7 +52,7 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    /* loop */
+    /* loop principal */
     shell_loop();
 
     /* cleanup */
