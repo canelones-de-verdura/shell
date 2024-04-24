@@ -1,6 +1,4 @@
-#include "values.h"
 #include <pwd.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -8,44 +6,38 @@
 
 // Separamos líneas según los espacios en blanco
 // TODO: Permitir espacios en blanco al usar "" o \ .
+#define TOKEN_SIZE 64
 #define TOKEN_DELIMITER " \t\r\n\a"
-
-char *get_home() {
-    char *home;
-    if (!(home = getenv("HOME"))) {
-        home = getpwuid(getuid())->pw_dir;
-    }
-
-    return home;
-}
 
 /*
  * Recé un rosario antes de ponerme a manipular strings. Espero que sea
  * suficiente
  */
 char *get_promt() {
-    char *home_in_current_dir = strstr(current_dir, home_dir);
+    char *PWD = getenv("PWD");
+    char *HOME = getenv("HOME");
+    char *home_in_current_dir = strstr(PWD, HOME);
 
-    char *promt = malloc(STR_SIZE * sizeof(char));
+    char *promt = malloc(TOKEN_SIZE * sizeof(char));
     if (home_in_current_dir == NULL) {
-        strcpy(promt, current_dir);
+        strcpy(promt, PWD);
     } else {
         promt[0] = '~';
-        promt[1] = '\0';
+        promt[1] = '\0'; // MUY importante
         // Padre nuestro, que estás en el cielo...
-        char *relative_path = current_dir + sizeof(home_dir) + 1;
+        char *relative_path = PWD + sizeof(*HOME) + 1;
         strcat(promt, relative_path);
     }
 
-    strcat(promt, "> ");
+    strcat(promt, "$ ");
 
     return promt;
 }
 
 char **split_line(char *line) {
     // Implementamos un array dinámico para ir guardando los argumentos
-    char **t_array = malloc(STR_SIZE * sizeof(char *));
-    int t_size = STR_SIZE;
+    char **t_array = malloc(TOKEN_SIZE * sizeof(char *));
+    int t_size = TOKEN_SIZE;
     int t_tail = 0;
     char *token;
 
@@ -61,7 +53,7 @@ char **split_line(char *line) {
         ++t_tail;
 
         if (t_tail > t_size) {
-            t_size += STR_SIZE;
+            t_size += TOKEN_SIZE;
             t_array = realloc(t_array, t_size);
             // Reventamos todo si realloc se caga
             if (t_array == NULL) {

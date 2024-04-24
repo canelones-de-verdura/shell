@@ -7,12 +7,6 @@
 #define UTILS_H
 
 /*
- * Auxiliar de shell_setup()
- * Devuelve el directorio del usuario, o NULL si no lo encuentra.
- */
-char *get_home();
-
-/*
  * Auxiliar de shell_loop().
  * Devuelve un string que mostramos como promt.
  */
