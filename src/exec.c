@@ -4,8 +4,11 @@
 #include "help.h"
 /* Stuff */
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include <wait.h>
 
 /* Array de strings que indican los comandos disponibles.
  * Por simpicidad, los pongo en orden alfabético.
@@ -22,6 +25,41 @@ bool (*builtin_functions[])(char **) = {&shell_builtin_cd, &shell_builtin_exit,
 /* Cantidad de funciones disponibles */
 int builtins() { return sizeof(builtin_commands) / sizeof(char *); }
 
+bool shell_run_program(char **args) {
+    pid_t child_pid;
+    pid_t wait_pid;
+    int exec_flag;
+    int status;
+
+    child_pid = fork();
+    if (child_pid < 0) {
+        // No pudo forkear
+        perror("shell_run_program()");
+    }
+    if (child_pid == 0) {
+        // Entra si es el hijo recién creado
+        // execvp recibe los argumentos a través de un array de arrays
+        // de chars. Muy conveniente.
+        exec_flag = execvp(args[0], args);
+        if (exec_flag) {
+            // Si exec funca, no va a llegar al if.
+            // Por eso chequeo por cualquier valor
+            perror("shell_run_program()");
+            exit(1);
+        }
+    } else {
+        // Acá entra el padre
+        do {
+            /* waitpid pude volver por cualquier motivo, así que lo volvemos
+             * a llamar hasta que retorne en las condiciones que queremos
+             */
+            wait_pid = waitpid(child_pid, &status, WUNTRACED);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
+
+    return true; // Solo para indicar que podemos pedir input de nuevo
+}
+
 bool shell_exec(char **args) {
     if (args[0] == NULL)
         return true;
@@ -34,6 +72,5 @@ bool shell_exec(char **args) {
     }
 
     /* Si no, llamamos exec() */
-    /* PLACEHOLDER */
-    return true;
+    return shell_run_program(args);
 }
