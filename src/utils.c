@@ -27,7 +27,7 @@ char *get_promt() {
         promt[0] = '~';
         promt[1] = '\0'; // MUY importante
         // Padre nuestro, que estás en el cielo...
-        char *relative_path = PWD + sizeof(*HOME) + 1;
+        char *relative_path = PWD + sizeof(HOME) + 1;
         strcat(promt, relative_path);
     }
 
