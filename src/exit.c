@@ -1,3 +1,4 @@
+#include "values.h"
 #include <stdbool.h>
 
-bool shell_builtin_exit(char **args) { return false; }
+int shell_builtin_exit(char **args) { return EXIT_SIGNAL; }
