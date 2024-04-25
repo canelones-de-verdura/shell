@@ -2,6 +2,7 @@
 #include "cd.h"
 #include "exit.h"
 #include "help.h"
+#include "pwd.h"
 #include "values.h"
 /* Stuff */
 #include <stdbool.h>
@@ -14,14 +15,14 @@
 /* Array de strings que indican los comandos disponibles.
  * Por simpicidad, los pongo en orden alfabético.
  */
-char *builtin_commands[] = {"cd", "exit", "help"};
+char *builtin_commands[] = {"cd", "exit", "help", "pwd"};
 
 /* ARRAY DE PUNTEROS DE FUNCIONES. Buena idea o una cagada? No sé.
  * IMPORTANTE: Las funciones se tienen que poner en el mismo orden que los
  * comandos correspondientes en *builtin_commands[].
  */
 int (*builtin_functions[])(char **) = {&shell_builtin_cd, &shell_builtin_exit,
-                                       &shell_builtin_help};
+                                       &shell_builtin_help, &shell_builtin_pwd};
 
 /* Cantidad de funciones disponibles */
 int builtins() { return sizeof(builtin_commands) / sizeof(char *); }

@@ -8,6 +8,7 @@ int shell_builtin_help(char **args) {
     printf("\nThe following commands are available:\n");
     printf("\t- help (This one!!)\n");
     printf("\t- cd\n");
+    printf("\t- pwd\n");
     printf("\t- exit\n");
     return FUNCTION_OK;
 }
