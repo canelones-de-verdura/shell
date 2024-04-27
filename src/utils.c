@@ -12,8 +12,6 @@
 /*
  * Recé un rosario antes de ponerme a manipular strings. Espero que sea
  * suficiente
- *
- * NO FUE SUFICIENTE. ARREGLAR
  */
 char *get_promt() {
     char *PWD = getenv("PWD");
