@@ -35,7 +35,7 @@ int shell_builtin_cd(char **args) {
     }
 
     /* Recibió una ruta relativa */
-    dir_ptr = malloc(sizeof(char) * 64); // Reutilizo el puntero
+    dir_ptr = malloc(sizeof(char) * STR_LENGTH); // Reutilizo el puntero
     strcpy(dir_ptr, getenv("PWD")); // Copiamos PWD
 
     // Le concatenamos la ruta rel. que recibió de parámetro.
