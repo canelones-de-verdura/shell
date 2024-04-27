@@ -10,7 +10,7 @@ BUILD_DIR = build
 BIN = $(BUILD_DIR)/shell
 
 $(BIN): $(OBJS)
-	$(CC) $^ -o $@ -lreadline
+	$(CC) $^ -o $@ -lreadline -O3
 
 $(OBJ_DIR)/main.o: src/main.c
 	gcc -c $^ -o $@	
