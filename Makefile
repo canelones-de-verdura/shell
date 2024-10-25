@@ -13,26 +13,26 @@ $(BIN): $(OBJS)
 	$(CC) $^ -o $@ -lreadline -O3
 
 $(OBJ_DIR)/main.o: src/main.c
-	gcc -c $^ -o $@	
+	gcc -c $^ -o $@	-O3
 
 $(OBJ_DIR)/utils.o: src/utils.c
-	gcc -c $^ -o $@
+	gcc -c $^ -o $@ -O3
 
 $(OBJ_DIR)/exec.o: src/exec.c
-	gcc -c $^ -o $@
+	gcc -c $^ -o $@ -O3
 
 
 $(OBJ_DIR)/cd.o: src/cd.c
-	gcc -c $^ -o $@
+	gcc -c $^ -o $@ -O3
 
 $(OBJ_DIR)/exit.o: src/exit.c
-	gcc -c $^ -o $@
+	gcc -c $^ -o $@ -O3
 
 $(OBJ_DIR)/help.o: src/help.c
-	gcc -c $^ -o $@
+	gcc -c $^ -o $@ -O3
 
 $(OBJ_DIR)/pwd.o: src/pwd.c
-	gcc -c $^ -o $@
+	gcc -c $^ -o $@ -O3
 
 clean:
 	rm $(BIN)

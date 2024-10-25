@@ -12,7 +12,7 @@ bool shell_setup() {
     char *HOME = getpwuid(getuid())->pw_dir;
     if (HOME == NULL)
         goto failure; // Esperemos que lo haya agarrado
-    
+
     /* Vamos para ahí */
     if (chdir(HOME) != 0)
         goto failure;
